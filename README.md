@@ -1,131 +1,150 @@
-# Analysis of Kenya’s National Government Ministries, Departments, and Agencies (MDAs) Budget Data  
+# **Analysis of Kenya’s National Government Ministries, Departments, and Agencies (MDAs) Budget Data**
 
-## 1.0 Project Overview  
-This project analyzes how public funds have been allocated and spent across Kenya’s national government MDAs over four financial years (2020/21 – 2023/24).  
+## **1.0 Project Overview**
+This project analyzes how public funds have been allocated and spent across Kenya’s National Government Ministries, Departments, and Agencies (MDAs) over four financial years (2020/21 – 2023/24).  
 
-By consolidating Auditor-General reports, National Budget Blue Books, and structured CSV datasets, the project investigates:  
-- Are ministries spending within approved budgets?  
-- Which MDAs consistently underspend or overspend?  
-- Are budget execution challenges systemic or isolated?  
-- What policy or governance reforms can address inefficiencies?  
+By consolidating Auditor-General reports, National Budget Blue Books, and structured CSV datasets, the study explores:
+- Whether ministries spend within approved budgets  
+- Which MDAs consistently **underspend** or **overspend**  
+- Whether inefficiencies are **systemic or isolated**  
+- What reforms can improve **budget execution and accountability**
 
-The outcome is a data-driven, longitudinal review that supports auditors, policymakers, researchers, and civil society in strengthening fiscal accountability.  
-
----
-
-## 2.0 Business Understanding  
-
-### Problem Statement  
-Kenya allocates trillions of shillings annually to ministries and agencies. However, persistent underspending and overspending undermine service delivery, weaken fiscal discipline, and raise governance risks. Traditional single-year audits provide snapshots but fail to reveal systemic inefficiencies across multiple years.  
-
-### Objectives  
-- Build a unified dataset of budget allocations vs. expenditures.  
-- Quantify execution gaps (approved vs. actual).  
-- Identify high-risk MDAs with persistent inefficiencies.  
-- Apply statistical tests and machine learning to detect patterns.  
-- Provide policy recommendations for improving budget execution.  
-
-### Stakeholders  
-- Auditor-General – Target repeat offenders for priority audits.  
-- Controller of Budget – Strengthen monitoring of budget absorption.  
-- Ministry Finance Teams – Improve forecasting and disbursement discipline.  
-- Civil Society & Media – Build evidence for public accountability campaigns.  
-- Policy Analysts & Researchers – Support fiscal reform with data insights.  
+The result is a **longitudinal, data-driven analysis** that supports auditors, policymakers, and civil society in strengthening fiscal governance.
 
 ---
 
-## 3.0 Data Understanding  
+## **2.0 Business Understanding**
 
-### Data Sources  
-| Source | Description | Role in Project |
-|--------|-------------|-----------------|
-| Auditor-General Reports (2020/21–2023/24) | Authoritative audited financial statements | Budget vs. actuals, audit opinions, governance notes |
-| National Budget Blue Book (2021/22) | Official approved estimates by vote/program | Baseline for approved allocations |
-| Kenya_National_Govt_Budget_2021_2024.csv | Structured, machine-readable dataset | Core analysis dataset |
-| MDAs Audit PDFs (2023/24) | Narrative + financial data | Context on execution gaps, pending bills |
+### **Problem Statement**
+Kenya allocates trillions annually to its MDAs, yet recurring underspending and overspending weaken fiscal discipline and public trust.  
+While Auditor-General reports provide yearly audits, they fail to reveal **persistent inefficiencies** across time.
 
-### Features Extracted  
+### **Objectives**
+- Build a unified, multi-year dataset of approved vs. actual expenditures  
+- Quantify and visualize execution gaps  
+- Detect patterns of inefficiency via clustering and trend analysis  
+- Apply statistical and ML methods to reveal systemic risks  
+- Recommend data-driven policy reforms
+
+### **Stakeholders**
+- **Auditor-General:** Identify repeat offenders for follow-up audits  
+- **Controller of Budget:** Strengthen monitoring of absorption capacity  
+- **Treasury & MDAs:** Improve forecasting and execution discipline  
+- **Civil Society & Media:** Promote transparency through open data  
+- **Policy Analysts:** Support fiscal reform through empirical evidence  
+
+---
+
+## **3.0 Data Understanding**
+
+| **Source** | **Description** | **Purpose** |
+|-------------|-----------------|--------------|
+| Auditor-General Reports (FY 2020/21 – 2023/24) | Official audited financials | Budget vs. actuals, audit findings |
+| National Budget “Blue Book” (FY 2021/22) | Approved allocations by vote/program | Baseline for approved budget |
+| Kenya_National_Govt_Budget_2021_2024.csv | Consolidated structured dataset | Core data for analysis |
+| MDAs Audit PDFs (2023/24) | Narrative + financial sections | Contextual explanations |
+
+**Core Features:**  
 - MDA_name  
 - Financial Year  
-- Approved Budget  
-- Actual Expenditure  
-- Variance and pct_variance  
+- Approved Budget / Actual Expenditure  
+- Variance (+/–) and %Variance  
 - Utilization Rate (%)  
 - Spending Status (Overspent / Underspent / On Budget)  
-- Audit Flag (significant deviation indicator)  
-
-### Limitations  
-- Data format: Mostly PDFs requiring cleaning and extraction.  
-- Inconsistent naming: MDAs renamed/merged across years.  
-- Granularity: Institution-level, not project-level.  
-- Audit notes: Qualitative, required NLP for structure.  
+- Audit Flag (±10% deviation trigger)
 
 ---
 
-## 4.0 Methodology  
+## **4.0 Methodology**
 
-### Data Preparation  
-- Cleaned ministry names (removed duplicates, noise).  
-- Standardized budgets into numeric format.  
-- Aggregated duplicates into single MDA-year rows.  
-- Engineered features: Utilization Rate, Spending Status, Audit Flag.  
+### **Data Preparation**
+- Extracted and cleaned data from PDFs using `pdfplumber`  
+- Standardized names across years and removed duplicates  
+- Engineered analytical features (variance, utilization, audit flag)
 
-### Exploratory Data Analysis (EDA)  
-- Spending status distributions (underspent vs overspent).  
-- Yearly budget vs expenditure comparison.  
-- Variance distribution (top 10 MDAs by variance).  
-- Correlation analysis of budget features.  
+### **Exploratory Data Analysis (EDA)**
+- Spending status pie charts → underspending dominates  
+- Yearly performance bars → inconsistent budget absorption  
+- Correlation heatmaps → weak relationship between budget size and execution  
+- Variance analysis → KSh 1.79 T underspent vs KSh 1.98 T overspent  
 
-### Statistical Testing  
-- Chi-square goodness-of-fit confirmed a significant bias toward underspending.  
+### **Statistical Tests**
+- **Chi-Square Test** confirmed a significant bias toward underspending (p < 0.05).  
 
-### Machine Learning and NLP  
-- Clustering (KMeans): Grouped MDAs into Efficient Spenders, Underspenders, Overspenders.  
-- NLP: Cleaned and tokenized Auditor-General text reports, extracted entities and budgets.  
-- Models:  
-  - Baseline: TF-IDF + Linear Regression → poor fit (R² = -0.12).  
-  - Tuned: XGBoost with numeric, categorical, and text features → RMSE ≈ 2.28e11, R² = 0.48.  
+### **Machine Learning**
+#### 🔹 **Clustering (K-Means)**
+Grouped MDAs based on:
+- Approved Budget  
+- Utilization Rate (%)  
+- Variance  
+
+| **Cluster** | **Label** | **Characteristics** |
+|--------------|-----------|----------------------|
+| 0 | Efficient Executors | High utilization, low variance |
+| 1 | Chronic Underspenders | Low utilization, large positive variance |
+| 2 | Overspending Risks | Negative variance (spent beyond budget) |
+
+**Key Visuals:**
+- Elbow & Silhouette plots → *k = 3 optimal*  
+- PCA projection → clear separation of fiscal behavior clusters  
+- Yearly cluster composition → efficiency improving post-2021  
+
+#### 🔹 **Trend Analysis**
+- Aggregated yearly totals and cluster-specific trends  
+- Visualized:
+  - **Utilization Rate Trends** per cluster  
+  - **Variance patterns** over time  
+  - **Budget vs Expenditure lines** (2020 – 2024)
+
+**Insights:**
+- Utilization improved after FY 2021/22  
+- Variance volatility fell, showing tightening fiscal discipline  
+- Some MDAs remain chronically inefficient despite reforms  
+
+#### 🔹 **NLP Pipeline**
+Extracted entities and budget mentions from narrative text using:
+- Tokenization, lemmatization, stop-word removal  
+- Entity recognition (e.g. “Ministry of Health”, “National Treasury”)  
+- Regex-based budget extraction and fuzzy mapping  
+
+#### 🔹 **Predictive Modeling**
+| **Model** | **Description** | **RMSE** | **R²** | **Interpretation** |
+|------------|-----------------|-----------|---------|--------------------|
+| TF-IDF + Linear Regression | Baseline text model | 1.0e11 | –0.12 | Poor linear fit |
+| Tuned XGBoost | Numeric + Categorical + Text features | 4.67e11 | 0.90 | Strong predictive performance |
 
 ---
 
-## 5.0 Key Findings  
+## **5.0 Key Findings**
 
-- Systemic Execution Gaps  
-  - Approved vs actual expenditure correlation ≈ 0 → MDAs spending unrelated to allocations.  
-- Massive Variances  
-  - KSh 2.1T underspent and KSh 2.0T overspent.  
-  - One MDA overspent ~KSh 1.2T in a single year.  
-- Underspending Bias  
-  - Most MDAs chronically underspend budgets (Chi-square test confirms).  
-- Cluster Profiles  
-  - Cluster 0: Efficient spenders.  
-  - Cluster 1: Chronic underspenders.  
-  - Cluster 2: Overspenders.  
-- Predictive Insights  
-  - Budget patterns partially predictable → XGBoost explains ~48% variance.  
+| **Theme** | **Insight** |
+|------------|-------------|
+| Execution Gaps | Approved vs Actual Expenditure correlation ≈ 0 → spending patterns unrelated to allocations |
+| Variance Magnitude | ± KSh 2 Trillion in total execution gaps over four years |
+| Bias | Majority of MDAs chronically underspend |
+| Clustering | Clear segmentation into Efficient, Under-, and Overspenders |
+| Trends | Gradual improvement in budget utilization post-2021 |
+| Predictive Insight | Budget allocations follow systematic patterns captured by ML models |
 
 ---
 
-## 6.0 Policy and Audit Recommendations  
-
-1. Address chronic underspending by resolving procurement bottlenecks and revising ceilings for repeat underspenders.  
-2. Tighten oversight on overspending MDAs through automatic audit triggers for >120% utilization.  
-3. Use clustering to prioritize audits for high-budget outliers.  
-4. Improve forecasting and planning by tying allocations to historical absorption capacity.  
-5. Provide capacity building for finance teams in planning, reporting, and execution.  
-6. Adopt evidence-based budgeting tied to past performance.  
-7. Introduce performance contracts linking leadership KPIs to ≥90% execution rates.  
-8. Strengthen IFMIS to auto-flag anomalies and trigger alerts.  
+## **6.0 Policy & Audit Recommendations**
+1. **Address Chronic Underspending:** Resolve procurement delays and revise ceilings for repeat offenders.  
+2. **Tighten Oversight:** Auto-flag MDAs spending >120 % of approved budget.  
+3. **Use Clusters for Audit Prioritization:** Target high-budget risks first.  
+4. **Improve Forecasting:** Link allocations to historical absorption rates.  
+5. **Capacity Building:** Train finance teams in planning and execution.  
+6. **Performance Contracts:** Tie leadership KPIs to ≥ 90 % budget utilization.  
+7. **Digital Oversight:** Enhance IFMIS to auto-track variance and flag anomalies in real time.  
 
 ---
 
-## 7.0 Repository Structure  
-
+## **7.0 Repository Structure**
 ```bash
-├── Data/                         # Raw and processed data files
-├── figures/                      # Visualizations (EDA, clusters, trends)
-├── artifacts/                    # Intermediate outputs (clustering results, cleaned data)
-├── models/                       # ML models and scalers
-├── deployment/                   # Cleaned files for deployment
-├── Analysis.ipynb                # Main project notebook
+├── Data/                         # Raw and processed data
+├── figures/                      # Plots: EDA, clustering, trends
+├── artifacts/                    # Intermediate outputs
+├── models/                       # Saved scalers and trained models
+├── deployment/                   # Processed datasets for deployment
+├── Analysis.ipynb                # Main notebook
 ├── README.md                     # Project documentation
