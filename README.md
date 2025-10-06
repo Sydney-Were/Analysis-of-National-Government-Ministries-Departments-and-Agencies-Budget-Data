@@ -1,5 +1,8 @@
 # **Analysis of Kenya’s National Government Ministries, Departments, and Agencies (MDAs) Budget Data**
 
+<img width="1000" height="400" alt="Iconic-budget-briefcase" src="https://github.com/user-attachments/assets/fd238356-c809-45e0-b0ab-b3a70b300dff" />
+
+[Source](https://www.standardmedia.co.ke/article/2001284097/the-history-of-kenya-s-iconic-budget-briefcase)
 ## **1.0 Project Overview**
 This project analyzes how public funds have been allocated and spent across Kenya’s National Government Ministries, Departments, and Agencies (MDAs) over four financial years (2020/21 – 2023/24).  
 
@@ -110,8 +113,8 @@ Extracted entities and budget mentions from narrative text using:
 #### 🔹 **Predictive Modeling**
 | **Model** | **Description** | **RMSE** | **R²** | **Interpretation** |
 |------------|-----------------|-----------|---------|--------------------|
-| TF-IDF + Linear Regression | Baseline text model | 1.0e11 | –0.12 | Poor linear fit |
-| Tuned XGBoost | Numeric + Categorical + Text features | 4.67e11 | 0.90 | Strong predictive performance |
+| TF-IDF + Linear Regression | Baseline text model | 1.1e11 | 0.20 | Poor linear fit |
+| Tuned XGBoost | Numeric + Categorical + Text features | 3.68e11 | 0.90 | Strong predictive performance |
 
 ---
 
@@ -139,6 +142,7 @@ Extracted entities and budget mentions from narrative text using:
 
 ---
 
+
 ## **7.0 Repository Structure**
 ```bash
 ├── Data/                         # Raw and processed data
@@ -148,3 +152,16 @@ Extracted entities and budget mentions from narrative text using:
 ├── deployment/                   # Processed datasets for deployment
 ├── Analysis.ipynb                # Main notebook
 ├── README.md                     # Project documentation
+```
+
+## **8.0 Links to Tableau and Search Tool Deployment**
+
+1. [Tableau](https://public.tableau.com/app/profile/daniel.akwabi/viz/Group3AnalysisofNationalGovernmentMinistriesDepartmentsandAgenciesBudgetData_/Dashboard1)
+2. [Search Tool](https://kenya-budget-app-a992f046cac2.herokuapp.com/)
+
+
+
+
+
+
+
